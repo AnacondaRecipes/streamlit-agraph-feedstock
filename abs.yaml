@@ -1,0 +1,5 @@
+upload_channels:
+  - sfe1ed40
+
+channels:
+  - https://staging.continuum.io/prefect/fs/rdflib-feedstock/pr2/b78cf28

@@ -1,0 +1,53 @@
+{% set name = "streamlit-agraph" %}
+{% set version = "0.0.45" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: b2b7cf1ad0a40dc906de50792b27f2878b0e186603cb3bc958ed78ca7e469cdd
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+  skip: True  # [py<36]
+
+requirements:
+  host:
+    - python
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - python
+    - streamlit >=0.63
+    - networkx >=2.5
+    - rdflib >=6.0.2
+
+test:
+  imports:
+    - streamlit_agraph
+    - streamlit_agraph.config
+    - streamlit_agraph.edge
+    - streamlit_agraph.node
+    - streamlit_agraph.triple
+    - streamlit_agraph.triplestore
+  requires:
+    - pip
+    - pytest
+  commands:
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pip check
+    - pytest -v
+
+about:
+  home: https://github.com/ChrisChross/streamlit-agraph
+  summary: Interactive Graph Vis for Streamlit.
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  description: Interactive Graph Vis for Streamlit.
+  doc_url: https://github.com/ChrisDelClea/streamlit-agraph/blob/master/README.md
+  dev_url: https://github.com/ChrisChross/streamlit-agraph
